@@ -172,6 +172,44 @@ SQL.RowManager.prototype.remove = function (e) {
     this.select(next);
 };
 
+SQL.RowManager.prototype.selectprev = function (e) {
+    var target = false;
+    var t = this.selected.owner;
+    var i = 0;
+    if (t.rows) {
+        for (i = 0; i < t.rows.length; i++) {
+            var r = t.rows[i];
+            if (r == this.selected) {
+                i--;
+                break;
+            }
+        }
+
+        if (i < 0) i = 0;
+        target = t.rows[i];
+        this.select(target);
+    }
+};
+
+SQL.RowManager.prototype.selectnext = function (e) {
+    var target = false;
+    var t = this.selected.owner;
+    var i = 0;
+    if (t.rows) {
+        for (i = 0; i < t.rows.length; i++) {
+            var r = t.rows[i];
+            if (r == this.selected) {
+                i++;
+                break;
+            }
+        }
+
+        if (i >= t.rows.length) i = t.rows.length - 1;
+        target = t.rows[i];
+        this.select(target);
+    }
+};
+
 SQL.RowManager.prototype.redraw = function () {
     this.endCreate();
     this.endConnect();
@@ -233,11 +271,13 @@ SQL.RowManager.prototype.press = function (e) {
             OZ.Event.prevent(e);
             break;
         case 38:
-            this.up();
+            if (!e.ctrlKey) this.selectprev();
+            else this.up();
             OZ.Event.prevent(e);
             break;
         case 40:
-            this.down();
+            if (!e.ctrlKey) this.selectnext();
+            else this.down();
             OZ.Event.prevent(e);
             break;
         case 46:
