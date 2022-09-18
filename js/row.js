@@ -28,7 +28,7 @@ SQL.Row.prototype._build = function () {
     this.dom.content = OZ.DOM.elm("tr");
     this.dom.selected = OZ.DOM.elm("div", {
         className: "selected",
-        innerHTML: "&raquo;&nbsp;",
+        // innerHTML: "&raquo;&nbsp;",
     });
     this.dom.title = OZ.DOM.elm("div", { className: "title" });
     var td1 = OZ.DOM.elm("td");
@@ -291,6 +291,11 @@ SQL.Row.prototype.redraw = function () {
         OZ.DOM.addClass(this.dom.title, "key");
     }
     this.dom.selected.style.display = this.selected ? "" : "none";
+    if (this.selected) {
+        this.dom.selected.parentElement.style.backgroundColor = "lightblue";
+    } else {
+        this.dom.selected.parentElement.style.backgroundColor = "";
+    }
     this.dom.container.title = this.data.comment;
 
     var typehint = [];
